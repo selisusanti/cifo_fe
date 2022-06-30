@@ -28,7 +28,6 @@ class UserController extends Controller
      * view profile
     */
     public function index(){
-        $data           = $this->loginService->getUser();
         return view('user');
     }
 
@@ -45,9 +44,8 @@ class UserController extends Controller
      * view profile
     */
     public function dataApi(Request $request){
-        // $limit  = $request->input('length');
-        $limit  = '6';
-        $start  = $request->input('start');
+        $limit          = '6';
+        $start          = $request->input('start');
     
         $page           = Ceil($start/$limit)+1;
         $search         = $_GET['search'];
@@ -87,21 +85,21 @@ class UserController extends Controller
      * view profile
     */
     public function data(Request $request){
-        $limit  = $request->input('length');
         $start  = $request->input('start');
+        $limit  = $request->input('length');
     
         $page           = Ceil($start/$limit)+1;
         $search         = $_GET['search'];
         $coba           = "";
 
-        $dataOutput     = $this->loginService->getUser();
-        $totalData      = count($dataOutput->data);
+        $dataOutput     = $this->loginService->getUser($page,$limit);
+        $totalData      = $dataOutput->data->total;
         $totalFiltered  = $totalData;
         $data = array();
         if($totalData > 0)
         {
             $nomor = $start+1;
-            foreach ($dataOutput->data as $key => $value)
+            foreach ($dataOutput->data->data as $key => $value)
             {
                 $action_text                 = '';
                 $nestedData['Nama']          = !empty($value->name) ? ucwords($value->name) : '-';

@@ -31,8 +31,8 @@ class LoginService implements LoginServiceImpl{
     }
 
 
-    public function getUser(){
-        return ApiHandler::request("GET","/api/user");
+    public function getUser($page,$limit){
+        return ApiHandler::request("GET","/api/user?page=".$page."&limit=".$limit);
     }
     
     public function  registerUser($name,$email,$phone,$password,$password_confirmation){
