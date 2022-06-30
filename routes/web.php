@@ -22,14 +22,17 @@ use Illuminate\Support\Facades\Route;
 // });
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 
 
 Route::get('/', 'LoginController@isLoggedIn');
+Route::get('register', 'LoginController@register');
 Route::post('/auth/login', 'LoginController@login');
 Route::get('logout', [LoginController::class, 'logout']);
 
 Route::prefix('auth')->group(function() {
     Route::put('reset-password', [LoginController::class, 'resetPassword']);
+    Route::post('register', [LoginController::class, 'registerUser']);
 });
 
 
@@ -38,4 +41,9 @@ Route::prefix('profile')->group(function() {
     Route::get('', [LoginController::class, 'profile']);
     Route::get('view-changepassword', [LoginController::class, 'getViewPassword']);
     Route::post('update', [LoginController::class, 'updateUser']);
+});
+
+Route::prefix('user-list')->group(function() {
+    Route::get('', [UserController::class, 'index']);
+    Route::get('data', [UserController::class, 'data']);
 });

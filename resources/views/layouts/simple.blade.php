@@ -133,16 +133,16 @@
 
                     <ul class="nav-main">
                         <li class="nav-main-item">
-                            <a class="nav-main-link {{Request::segment(1) == 'transfer-wallet' ? 'active' : ''}}" href="/transfer-wallet">
-                                <span class="nav-main-link-name">Transfer Wallet</span>
+                            <a class="nav-main-link {{Request::segment(1) == 'user-list' ? 'active' : ''}}" href="/user-list">
+                                <span class="nav-main-link-name">User List</span>
                             </a>
                         </li>
                     </ul>
 
                     <ul class="nav-main">
                         <li class="nav-main-item">
-                            <a class="nav-main-link {{Request::segment(1) == 'history-wallet' ? 'active' : ''}}" href="/history-wallet">
-                                <span class="nav-main-link-name">History Wallet</span>
+                            <a class="nav-main-link {{Request::segment(1) == 'user-list-api' ? 'active' : ''}}" href="/user-list-api">
+                                <span class="nav-main-link-name">Users Api</span>
                             </a>
                         </li>
                     </ul>

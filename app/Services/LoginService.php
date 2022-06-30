@@ -30,4 +30,18 @@ class LoginService implements LoginServiceImpl{
         return ApiHandler::request("GET","/api/userProfile");
     }
 
+
+    public function getUser(){
+        return ApiHandler::request("GET","/api/user");
+    }
+    
+    public function  registerUser($name,$email,$phone,$password,$password_confirmation){
+        return ApiHandler::requestWithoutAccessToken("POST","/api/register",[
+            "name"  => $name,
+            "email" => $email,
+            "phone" => $phone,
+            "password" => $password,
+            "password_confirmation" => $password_confirmation,
+        ]);
+    }
 }

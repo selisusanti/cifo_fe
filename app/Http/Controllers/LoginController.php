@@ -81,6 +81,30 @@ class LoginController extends Controller
         return view('change-password');
     }
 
+    
+    public function registerUser(Request $request) {
+        $this->validate($request,[
+            'name'                                => 'required|min:5',
+            'email'                               => 'required',
+            'phone'                               => 'required|min:7',
+            'password'                            => 'required|min:8|max:12|same:password_confirmation|regex:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).+$/',
+            'password_confirmation'               => 'required|min:8|max:12',
+        ]);
+
+        $profile           = $this->loginService->registerUser($request->name,$request->email,$request->phone,$request->password,$request->password_confirmation);
+        
+        if($profile->code == '200'){
+            Session::flush();
+            Session::save();
+            Session::regenerate(true);
+            Session::put('access_token', $profile->data->token);
+            Session::put('user', $profile->data->user);
+            return redirect('/profile');
+        }else{
+            Session::flash('error', $profile->message);
+            return back()->withInput();
+        }
+    }
 
     public function resetPassword(Request $request) {
 
@@ -97,5 +121,12 @@ class LoginController extends Controller
             Session::flash('error', $profile->message);
             return back();
         }
+    }
+
+    /**
+     * view profile
+    */
+    public function register(){
+        return view('register');
     }
 }

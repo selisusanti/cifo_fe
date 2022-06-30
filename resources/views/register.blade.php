@@ -22,7 +22,7 @@
     {{--  <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>  --}}
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>CIFO Dashboard</title>
+    <title>CIFO Register</title>
 
     <link rel="stylesheet" href="{{ asset('/js/plugins/sweetalert2/sweetalert2.min.css') }}">
     <script src="{{ asset('js/dashmix.app.js') }}"></script>
@@ -64,21 +64,27 @@
                                         <a class="link-fx text-warning font-w700 font-size-h1" href="index.html">
                                             <span class="text-dark">CIFO </span><span class="text-primary"></span>
                                         </a>
-                                        <p class="text-uppercase font-w700 font-size-sm text-muted">Dashboard</p>
+                                        <p class="text-uppercase font-w700 font-size-sm text-muted">Register</p>
                                     </div>
                                     <!-- END Header -->
-                                    <form id="form-login" action="/auth/login" method="post" id="login-form">
+                                    <form id="form-login" action="/auth/register" method="post" id="login-form">
                                         @csrf    
                                         <div class="form-group">
-                                            <input type="email" class="form-control" value="{{ old('email') }}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email" placeholder="Email" required>
-                                        </div>
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" value="{{ old('name') }}" name="name" placeholder="name" required>
+                                        </div> 
                                         <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" class="form-control" value="{{ old('email') }}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email" placeholder="Email" required>
+                                        </div>  
+                                        <div class="form-group">
+                                            <label>Phone</label>
+                                            <input type="text" class="form-control" value="{{ old('phone') }}" name="phone" placeholder="phone" required>
+                                        </div> 
+                                        <div class="form-group">
+                                            <label>Password</label>
                                             <input type="password" class="form-control" name="password" value="{{ old('password') }}" placeholder="Password" required>
-                                        </div>
-                                        <div class="form-group">       
-                                            <a href="/register">
-                                                <p class="text-uppercase text-center font-w700 font-size-sm text-muted">Register ?</p>
-                                            </a>
+                                            <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}" placeholder="Password Confirmation" required>
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-hero-primary btn-block">Login</button>
@@ -134,4 +140,37 @@
 </script>
 @endif
 
+@if (count($errors) > 0)
+<script type="text/javascript">
+    @foreach ($errors->all() as $error)
+        $(document).ready(function(){
+            Dashmix.helpers('notify', {
+                type: 'danger',
+                icon: 'fa fa-times mr-1',
+                message: '{{ $error }}',
+                allow_dismiss: true,
+                timer: 15000
+            });
+        });
+    @endforeach
+</script>
+@endif
+
+@if(isset($data->error))
+    @if(count($data->error) > 0)
+    <script type="text/javascript">
+        @foreach ($data->error->all() as $error)
+            $(document).ready(function(){
+                Dashmix.helpers('notify', {
+                    type: 'danger',
+                    icon: 'fa fa-times mr-1',
+                    message: '{{ $error }}',
+                    allow_dismiss: true,
+                    timer: 15000
+                });
+            });
+        @endforeach
+    </script>
+    @endif
+@endif
 </html>
