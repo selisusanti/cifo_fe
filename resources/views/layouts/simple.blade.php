@@ -28,7 +28,7 @@
         <link rel="stylesheet" href="{{ asset('/css/responsive.bootstrap4.min.css') }}"> 
 
         <!-- for dialog -->
-        <link rel="stylesheet" href="{{ asset('/css/themes/xwork.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/themes/xdream.css') }}">
         <link rel="stylesheet" href="{{ asset('/js/plugins/sweetalert2/sweetalert2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" />
         @yield('css_after')
