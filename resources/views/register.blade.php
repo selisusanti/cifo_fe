@@ -87,7 +87,7 @@
                                             <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}" placeholder="Password Confirmation" required>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-hero-primary btn-block">Login</button>
+                                            <button type="submit" class="btn btn-hero-primary btn-block">Submit</button>
                                         </div>
                                     </form>
                                     <!-- END Reminder Form -->

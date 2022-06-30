@@ -47,3 +47,8 @@ Route::prefix('user-list')->group(function() {
     Route::get('', [UserController::class, 'index']);
     Route::get('data', [UserController::class, 'data']);
 });
+
+Route::prefix('user-list-api')->group(function() {
+    Route::get('', [UserController::class, 'indexApi']);
+    Route::get('data', [UserController::class, 'dataApi']);
+});

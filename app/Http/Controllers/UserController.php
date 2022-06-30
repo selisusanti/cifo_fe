@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\LoginService;
+use App\Services\UserService;
 use App\Constants\Constant;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,10 +17,11 @@ use DB;
 class UserController extends Controller
 {
 
-    private $loginService;
+    private $userService;
 
     public function __construct(){
         $this->loginService = new LoginService();
+        $this->userService = new UserService();
     }
 
     /**
@@ -29,6 +31,57 @@ class UserController extends Controller
         $data           = $this->loginService->getUser();
         return view('user');
     }
+
+
+
+    /**
+     * view profile
+    */
+    public function indexApi(){
+        return view('user-api');
+    }
+
+    /**
+     * view profile
+    */
+    public function dataApi(Request $request){
+        // $limit  = $request->input('length');
+        $limit  = '6';
+        $start  = $request->input('start');
+    
+        $page           = Ceil($start/$limit)+1;
+        $search         = $_GET['search'];
+        $coba           = "";
+
+        $dataOutput     = $this->userService->getUserList($page);
+        $totalData      = $dataOutput->total;
+        $totalFiltered  = $totalData;
+        $data           = array();
+        if($totalData > 0)
+        {
+            $nomor = $start+1;
+            foreach ($dataOutput->data as $key => $value)
+            {
+                $action_text                 = '';
+                $nestedData['First Name']    = $value->first_name ?? '-';
+                $nestedData['Last Name']     = $value->last_name ?? '-';
+                $nestedData['Avatar']        = $value->avatar ?? '-';
+                $nestedData['Email']         = $value->email ?? '-';
+                $data[] = $nestedData;
+                $nomor++;
+            }
+        }
+    
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),  
+            "recordsTotal"    => intval($totalData),  
+            "recordsFiltered" => intval($totalFiltered), 
+            "data"            => $data   
+            );
+    
+        echo json_encode($json_data); 
+    }
+
 
     /**
      * view profile
