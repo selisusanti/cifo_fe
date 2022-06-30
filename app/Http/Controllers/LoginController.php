@@ -92,7 +92,7 @@ class LoginController extends Controller
         ]);
 
         $profile           = $this->loginService->registerUser($request->name,$request->email,$request->phone,$request->password,$request->password_confirmation);
-        
+
         if($profile->code == '200'){
             Session::flush();
             Session::save();
@@ -100,8 +100,11 @@ class LoginController extends Controller
             Session::put('access_token', $profile->data->token);
             Session::put('user', $profile->data->user);
             return redirect('/profile');
+        }else if($profile->code == '422'){
+            Session::flash('errors', $profile->data);
+            return back()->withInput()->withErrors($profile->data);
         }else{
-            Session::flash('error', $profile->message);
+            Session::flash('errors', $profile->message);
             return back()->withInput();
         }
     }
@@ -117,6 +120,9 @@ class LoginController extends Controller
         if($profile->code == '200'){
             Session::flash('success', "Update password sukses");
             return back();
+        }else if($profile->code == '422'){
+            Session::flash('errors', $profile->data);
+            return back()->withInput()->withErrors($profile->data);
         }else{
             Session::flash('error', $profile->message);
             return back();
